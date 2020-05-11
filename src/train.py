@@ -52,6 +52,8 @@ parser.add_argument('--val_batch_size', metavar='SIZE', type=int, default=2, hel
 parser.add_argument('--val_batch_count', metavar='N', type=int, default=40, help='Number of batches for validation.')
 parser.add_argument('--val_every', metavar='STEPS', type=int, default=0, help='Calculate validation loss every STEPS steps.')
 
+parser.add_argument('--training_steps', metavar='N', type=int, default=1500, help='Number of steps to train before finishing.')
+
 
 def maketree(path):
     try:
@@ -254,8 +256,11 @@ def main():
         avg_loss = (0.0, 0.0)
         start_time = time.time()
 
+        steps_taken = 0
+
         try:
-            while True:
+            while steps_taken <= args.training_steps:
+                steps_taken += 1
                 if counter % args.save_every == 0:
                     save()
                 if counter % args.sample_every == 0:
